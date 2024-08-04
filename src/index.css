@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn-blue {
+  @apply inline-block text-white font-bold bg-blue-600 py-2 px-8 text-xl border-blue-900 shadow-inner;
+}
+
+.btn-blue:hover {
+  @apply bg-blue-400;
+}
+
+.grid-cols-9 {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}

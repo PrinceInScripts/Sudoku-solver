@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import SudokuSolver from './SudokuSolver'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div className='text-black text-lg'>hi</div>
+     <div>
+      <SudokuSolver/>
+     </div>
     </>
   )
 }
