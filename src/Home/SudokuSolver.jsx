@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cell from "../Components/Cell";
-import { SudokuSol } from "./solver";
+import { isValid, SudokuSol } from "./solver";
 import { SudokuSolVisualizer } from "./solverVisulize";
+import { toast } from "react-toastify";
 
 const SudokuSolver = () => {
   const [board, setBoard] = useState(
@@ -47,8 +48,9 @@ const SudokuSolver = () => {
     const currentBoard = board.map(row => row.map(cell => cell.value));
     if (SudokuSol(currentBoard, 0, 0)) {
       fillBoard(currentBoard);
+      toast.success("Congratulations! The Sudoku is Solved !");
     } else {
-      alert("No solution found");
+      toast.error("No solution found");
     }
   };
 
@@ -57,8 +59,42 @@ const SudokuSolver = () => {
     if (await SudokuSolVisualizer(currentBoard, 0, 0, (newBoard) => setBoard(newBoard.map((row, i) => row.map((value, j) => ({ id: i * 9 + j, value, isInitial: board[i][j].isInitial })))))) {
       fillBoard(currentBoard);
     } else {
-      alert("No solution found");
+      toast.error("No solution found");
     }
+  };
+
+  const isValidSudoku = (board) => {
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        const num = board[i][j].value;
+        if (num !== 0) {
+          board[i][j].value = 0;
+          if (!isValid(board.map((row) => row.map((cell) => cell.value)), i, j, num)) {
+            board[i][j].value = num;
+            return false;
+          }
+          board[i][j].value = num;
+        }
+      }
+    }
+    return true;
+  };
+
+  const checkUserSolution = () => {
+    for (const row of board) {
+      for (const cell of row) {
+        if (cell.value === 0) {
+          toast.error("Please fill all cells before checking the solution.");
+          return;
+        }
+      }
+    }
+
+    if (isValidSudoku(board)) {
+      toast.success("Congratulations! The Sudoku solution is correct.");
+    } else {
+      toast.error("The Sudoku solution is incorrect. Please try again.");
+    } 
   };
 
   return (
@@ -86,6 +122,10 @@ const SudokuSolver = () => {
         <button onClick={solvePuzzleVisualizer} className="btn-blue mx-2">
           Visualizer Puzzle
         </button>
+        <button onClick={checkUserSolution} className="btn-blue mx-2">
+          Check Solution
+        </button>
+        
       </div>
     </div>
   );
