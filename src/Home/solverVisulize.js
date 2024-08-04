@@ -1,3 +1,4 @@
+
 export const isValid = (board, i, j, num) => {
     const n = 9;
     for (let x = 0; x < n; x++) {
@@ -21,27 +22,34 @@ export const isValid = (board, i, j, num) => {
     return true;
   };
   
-  export const SudokuSol = (board, i, j) => {
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  
+  export const SudokuSolVisualizer = async (board, i, j, updateBoard) => {
     const n = 9;
     if (i === n) {
       return true;
     }
   
     if (j === n) {
-      return SudokuSol(board, i + 1, 0);
+      return await SudokuSolVisualizer(board, i + 1, 0, updateBoard);
     }
   
     if (board[i][j] !== 0) {
-      return SudokuSol(board, i, j + 1);
+      return await SudokuSolVisualizer(board, i, j + 1, updateBoard);
     }
   
     for (let num = 1; num <= 9; num++) {
       if (isValid(board, i, j, num)) {
         board[i][j] = num;
-        if (SudokuSol(board, i, j + 1)) {
+        updateBoard(board.map(row => [...row])); // Create a new array to trigger re-render
+        await sleep(100); // Delay to visualize the process
+  
+        if (await SudokuSolVisualizer(board, i, j + 1, updateBoard)) {
           return true;
         }
         board[i][j] = 0;
+        updateBoard(board.map(row => [...row])); // Create a new array to trigger re-render
+        await sleep(100); // Delay to visualize the process
       }
     }
     return false;

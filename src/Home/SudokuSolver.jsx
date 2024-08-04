@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cell from "../Components/Cell";
 import { SudokuSol } from "./solver";
+import { SudokuSolVisualizer } from "./solverVisulize";
 
 const SudokuSolver = () => {
   const [board, setBoard] = useState(
     Array(9)
       .fill()
-      .map(() => Array(9).fill(0))
+      .map(() => Array(9).fill({ value: 0, isInitial: false }))
   );
 
   const fillBoard = (board) => {
     const newBoard = board.map((row, i) =>
       row.map((cell, j) => {
-        return { id: i * 9 + j, value: cell };
+        return { id: i * 9 + j, value: cell, isInitial: cell !== 0 };
       })
     );
     setBoard(newBoard);
@@ -34,8 +35,6 @@ const SudokuSolver = () => {
     }
   };
 
-
-
   const handleChange = (value, id) => {
     const newBoard = board.map((row) => row.map((cell) => ({ ...cell })));
     const row = Math.floor(id / 9);
@@ -44,9 +43,18 @@ const SudokuSolver = () => {
     setBoard(newBoard);
   };
 
-   const solvePuzzle = () => {
+  const solvePuzzle = () => {
     const currentBoard = board.map(row => row.map(cell => cell.value));
     if (SudokuSol(currentBoard, 0, 0)) {
+      fillBoard(currentBoard);
+    } else {
+      alert("No solution found");
+    }
+  };
+
+  const solvePuzzleVisualizer = async () => {
+    const currentBoard = board.map(row => row.map(cell => cell.value));
+    if (await SudokuSolVisualizer(currentBoard, 0, 0, (newBoard) => setBoard(newBoard.map((row, i) => row.map((value, j) => ({ id: i * 9 + j, value, isInitial: board[i][j].isInitial })))))) {
       fillBoard(currentBoard);
     } else {
       alert("No solution found");
@@ -62,6 +70,7 @@ const SudokuSolver = () => {
               key={cell.id}
               id={cell.id}
               value={cell.value}
+              isInitial={cell.isInitial}
               onChange={handleChange}
             />
           ))
@@ -74,38 +83,13 @@ const SudokuSolver = () => {
         <button onClick={solvePuzzle} className="btn-blue mx-2">
           Solve Puzzle
         </button>
+        <button onClick={solvePuzzleVisualizer} className="btn-blue mx-2">
+          Visualizer Puzzle
+        </button>
       </div>
     </div>
   );
 };
 
-const getBoxClass = (id) => {
-  const boxColors = [
-    "bg-blue-200",
-    "bg-blue-300",
-    "bg-blue-400",
-    "bg-orange-200",
-    "bg-orange-300",
-    "bg-orange-400",
-    "bg-green-200",
-    "bg-green-300",
-    "bg-green-400",
-  ];
-
-  const row = Math.floor(id / 9);
-  const col = id % 9;
-  const blockIndex = Math.floor(row / 3) * 3 + Math.floor(col / 3);
-
-  return `${boxColors[blockIndex]} ${getBorderClass(id)}`;
-};
-
-const getBorderClass = (id) => {
-  let borderClass = "";
-  if (id % 9 === 0) borderClass += " border-l-4";
-  if (id % 3 === 2) borderClass += " border-r-4";
-  if (Math.floor(id / 9) % 3 === 2) borderClass += " border-b-4";
-  if (id < 9) borderClass += " border-t-4";
-  return borderClass;
-};
 
 export default SudokuSolver;

@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Cell = ({ id, value, onChange }) => {
-    const isEditable = value === 0;
+const Cell = ({ id, value, isInitial, onChange }) => {
   const handleChange = (e) => {
     const { value } = e.target;
     if (/^\d*$/.test(value) && value.length <= 1) {
@@ -12,21 +11,21 @@ const Cell = ({ id, value, onChange }) => {
   return (
     <input
       type="text"
-      className={`w-14 h-14 flex items-center text-center shadow-xl font-serif font-bold justify-center text-black text-2xl border-2 ${getBoxClass(id)}`}
+      className={`w-14 h-14 flex items-center text-center shadow-xl font-serif font-bold justify-center text-black text-2xl border-2 ${getBoxClass(id)} ${isInitial ? 'text-white' : 'text-black'}`}
       value={value === 0 ? '' : value}
       onChange={handleChange}
       maxLength="1"
-      disabled={!isEditable}
+      disabled={isInitial}
     />
   );
 };
 
 const getBoxClass = (id) => {
-  const boxColors = [
-    'bg-blue-200', 'bg-blue-300', 'bg-blue-400',
-    'bg-orange-200', 'bg-orange-300', 'bg-orange-400',
-    'bg-green-200', 'bg-green-300', 'bg-green-400',
-  ];
+    const boxColors = [
+            'bg-blue-900', 'bg-orange-900', 'bg-green-900',
+            'bg-blue-900', 'bg-orange-900', 'bg-green-900',
+            'bg-blue-900', 'bg-orange-900', 'bg-green-900',
+          ];
 
   const row = Math.floor(id / 9);
   const col = id % 9;
