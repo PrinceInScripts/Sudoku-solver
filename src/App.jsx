@@ -1,15 +1,14 @@
-import { useState } from 'react'
-import SudokuSolver from './SudokuSolver'
+import { useState } from "react";
+import SudokuSolver from "./Home/SudokuSolver";
 
 function App() {
-
   return (
     <>
-     <div>
-      <SudokuSolver/>
-     </div>
+      <div>
+        <SudokuSolver />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

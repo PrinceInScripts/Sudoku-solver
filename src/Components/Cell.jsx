@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Cell = ({ id, value, onChange }) => {
+    const isEditable = value === 0;
   const handleChange = (e) => {
     const { value } = e.target;
     if (/^\d*$/.test(value) && value.length <= 1) {
@@ -15,6 +16,7 @@ const Cell = ({ id, value, onChange }) => {
       value={value === 0 ? '' : value}
       onChange={handleChange}
       maxLength="1"
+      disabled={!isEditable}
     />
   );
 };
