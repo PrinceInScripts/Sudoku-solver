@@ -11,7 +11,7 @@ const Cell = ({ id, value, isInitial, onChange }) => {
   return (
     <input
       type="text"
-      className={`w-14 h-14 flex items-center text-center shadow-xl font-serif font-bold justify-center text-black text-2xl border-2 ${getBoxClass(id)} ${isInitial ? 'text-white' : 'text-black'}`}
+      className={`lg:w-14 lg:h-14 w-10 h-10 flex items-center text-center shadow-xl font-serif font-bold justify-center text-black text-xl lg:text-2xl border-2 ${getBoxClass(id)} ${isInitial ? 'text-white' : 'text-black'}`}
       value={value === 0 ? '' : value}
       onChange={handleChange}
       maxLength="1"

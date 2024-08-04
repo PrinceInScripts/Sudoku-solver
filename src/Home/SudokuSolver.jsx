@@ -120,27 +120,27 @@ const SudokuSolver = () => {
           ))
         )}
       </div>
-      <div className="flex justify-center mb-20 font-serif font-bold">
+      <div className="flex flex-col lg:flex-row gap-5 justify-center lg:mt-0 mt-20 mb-20 font-serif font-bold">
       <select
           value={difficulty}
           onChange={handleDifficultyChange}
-          className="btn-blue mx-4"
+          className="bg-gray-50 border p-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
           <option className="bg-white text-black " value="easy">Easy</option>
           <option className="bg-white text-black " value="medium">Medium</option>
           <option className="bg-white text-black " value="hard">Hard</option>
           <option className="bg-white text-black " value="random">Random</option>
         </select>
-        <button onClick={() => getPuzzle(difficulty)} className="btn-blue mx-2">
+        <button onClick={() => getPuzzle(difficulty)} type="button" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-2xl px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
           Get Puzzle
         </button>
-        <button onClick={solvePuzzle} className="btn-blue mx-2">
+        <button onClick={solvePuzzle} type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-2xl px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
           Solve Puzzle
         </button>
-        <button onClick={solvePuzzleVisualizer} className="btn-blue mx-2">
+        <button onClick={solvePuzzleVisualizer} type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-2xl px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
           Visualizer Puzzle
         </button>
-        <button onClick={checkUserSolution} className="btn-blue mx-2">
+        <button onClick={checkUserSolution} type="button" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-2xl px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">
           Check Solution
         </button>
         
